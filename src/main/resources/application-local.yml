@@ -1,0 +1,45 @@
+server:
+  port: 9444
+  servlet:
+    context-path: /bosstohell
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: org.sherlock
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/bosstohell?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      host: 47.109.72.57
+      port: 6379
+      password: 123456
+      database: 0
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 32
+          min-idle: 8
+mybatis-plus:
+  generator:
+    global:
+      out-path: "src/main/java"
+      author: sherlock
+    package:
+      parent-package-name: org.sherlock
+      module-package-name: CodeGenerator
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #日志追踪（mybatis-plus执行日志）
+    map-underscore-to-camel-case: true #支持驼峰
