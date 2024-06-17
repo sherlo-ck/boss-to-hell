@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    //自定义异常
+    // 业务异常
     @ExceptionHandler(BusinessExcepiton.class)
     @ResponseBody
     public Result error(BusinessExcepiton e) {
@@ -18,5 +18,15 @@ public class GlobalExceptionHandler {
         log.error("BusinessExcepiton error: ", e);
         return new Result.ResultBuilder<>().code(ErrorCodeEnum.ResultCode.FAIL.getCode())
                 .success(ErrorCodeEnum.ResultCode.FAIL.getMessage()).message(e.getMessage()).build();
+    }
+
+    /**
+     * 异常处理
+     */
+    @ResponseBody
+    @ExceptionHandler(value = Exception.class)
+    public Result exceptionHandler(Exception e) {
+        log.error("GlobalExceptionHandler.exceptionHandler , 异常信息",e);
+        return Result.failure(e.getMessage());
     }
 }

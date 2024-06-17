@@ -7,9 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
@@ -23,7 +28,8 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("sys_user")
-@Schema(name = "SysUser", description = "")
+@Schema(name = "SysUser", description = "系统用户表")
+@RequiredArgsConstructor
 public class SysUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,10 +40,11 @@ public class SysUser implements Serializable {
 
     @Schema(description = "用户id")
     @TableField("user_id")
-    private Long userId;
+    private String userId;
 
     @Schema(description = "用户名")
     @TableField("user_name")
+    @NotBlank(message = "用户名称不能为空！", groups = {Insert.class, Update.class})
     private String userName;
 
     @Schema(description = "用户昵称")
@@ -46,6 +53,7 @@ public class SysUser implements Serializable {
 
     @Schema(description = "用户密码")
     @TableField("password")
+    @NotBlank(message = "用户密码不能为空！", groups = {Insert.class, Update.class})
     private String password;
 
     @Schema(description = "性别 0 男 1 女 2 未知")

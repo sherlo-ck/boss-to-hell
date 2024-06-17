@@ -58,6 +58,15 @@ public class Result<T> {
     public static <T> Result<T> success(T data, String msg) {
         Result<T> result = new Result<>();
         result.setData(data);
+        result.setMsg(msg);
+        result.setSuccess(ErrorCodeEnum.ResultCode.SUCCESS.getMessage());
+        result.setCode(ErrorCodeEnum.ResultCode.SUCCESS.getCode());
+        return result;
+    }
+
+    public static <T> Result<T> success(String msg) {
+        Result<T> result = new Result<>();
+        result.setMsg(msg);
         result.setSuccess(ErrorCodeEnum.ResultCode.SUCCESS.getMessage());
         result.setCode(ErrorCodeEnum.ResultCode.SUCCESS.getCode());
         return result;

@@ -23,4 +23,8 @@ public class BusinessExcepiton  extends RuntimeException {
     public BusinessExcepiton(String message) {
         super(message);
     }
+
+    public static void throwException(Integer code, String message) {
+        throw new BusinessExcepiton(code, message);
+    }
 }
