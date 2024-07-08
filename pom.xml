@@ -29,6 +29,7 @@
         <spring.security.version>3.1.1.RELEASE</spring.security.version>
         <swagger.version>4.1.0</swagger.version>
         <jwt.version>0.12.5</jwt.version>
+        <juint.version>1.10.2</juint.version>
     </properties>
 
     <dependencies>
@@ -138,8 +139,9 @@
             <version>${jwt.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${juint.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

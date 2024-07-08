@@ -4,9 +4,8 @@ import jakarta.annotation.Resource;
 import org.sherlock.common.entiry.Result;
 import org.sherlock.entity.SysUser;
 import org.sherlock.service.SysUserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -25,12 +24,13 @@ public class SysUserController {
     @Resource
     private SysUserService sysUserService;
 
-    @GetMapping("/login")
-    public Result<Map<String, String>> login(SysUser user) {
+    @PostMapping("/login")
+    public Result<Map<String, String>> login(@RequestBody() SysUser user) {
         return Result.success(sysUserService.login(user), "用户登录成功");
     }
 
     @GetMapping("/getUser")
+    @PreAuthorize("hasAuthority('select')")
     public Result<String> getUser() {
         return Result.success("user");
     }

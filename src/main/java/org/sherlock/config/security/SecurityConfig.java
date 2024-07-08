@@ -1,22 +1,29 @@
 package org.sherlock.config.security;
 
+import jakarta.annotation.Resource;
+import org.sherlock.filter.AuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 安全配置类，用于配置Spring Security的各个方面。
  */
 @Configuration
-@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    @Resource
+    private AuthenticationTokenFilter authenticationTokenFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,11 +51,11 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/bosstohell/user/login")
+                                .requestMatchers("/user/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
-                );
+                ).addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class); // 执行UsernamePasswordAuthenticationFilter前执行authenticationTokenFilter
         return http.build();
     }
 }

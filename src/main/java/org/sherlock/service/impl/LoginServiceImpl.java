@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -37,7 +39,9 @@ public class LoginServiceImpl implements UserDetailsService {
         if (Objects.isNull(sysUser)) {
             throw new BusinessExcepiton("用户不存在，请创建新用户！");
         }
-        // todo 校验密码
-        return new LoginEntity(sysUser);
+        // 添加权限列表 todo 查询数据库
+        List<String> authenticationList = new ArrayList<>();
+        authenticationList.add("select");
+        return new LoginEntity(sysUser, authenticationList);
     }
 }

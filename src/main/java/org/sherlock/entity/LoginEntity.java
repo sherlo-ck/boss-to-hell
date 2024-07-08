@@ -3,9 +3,12 @@ package org.sherlock.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 登录实体类，实现了UserDetails接口，用于Spring Security的身份验证。
@@ -20,13 +23,16 @@ public class LoginEntity implements UserDetails {
      */
     private SysUser sysUser;
 
+    private List<String> authenticationList;
+
     /**
      * 构造函数，用于创建LoginEntity实例。
      *
      * @param sysUser 系统用户对象，包含了登录所需的用户信息。
      */
-    public LoginEntity(SysUser sysUser) {
+    public LoginEntity(SysUser sysUser, List<String> authenticationList) {
         this.sysUser = sysUser;
+        this.authenticationList = authenticationList;
     }
 
     /**
@@ -37,7 +43,9 @@ public class LoginEntity implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+        authenticationList.forEach(auth -> simpleGrantedAuthorities.add(new SimpleGrantedAuthority(auth)));
+        return simpleGrantedAuthorities;
     }
 
     /**

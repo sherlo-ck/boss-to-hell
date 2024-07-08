@@ -1,5 +1,6 @@
 package org.sherlock.entity;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -54,6 +55,7 @@ public class SysUser implements Serializable {
     @Schema(description = "用户密码")
     @TableField("password")
     @NotBlank(message = "用户密码不能为空！", groups = {Insert.class, Update.class})
+    @JSONField(serialize = false)
     private String password;
 
     @Schema(description = "性别 0 男 1 女 2 未知")
